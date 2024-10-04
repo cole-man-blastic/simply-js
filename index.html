@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title> Pong </title>
+    <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+    <script>
+      function start() {
+        sjs.open("target", 500, 400);
+
+        var txt = new sjs.Text("Pong.", 50, "white").centerH();
+
+        var button = new sjs.Button("Try Epic Version", function() {
+          window.location = "epic.html";
+        }, 30, "black");
+        button.centerH();
+        button.offset(0, 350);
+        var playButton = new sjs.Button("Play", function() {
+          window.location = "lame.html";
+        }, 30, "black");
+        playButton.centerH();
+        playButton.offset(0, 300);
+      }
+    </script>
+  </head>
+  <body onload="start()">
+    <div id="target" style="margin:auto; margin-top: 100; background-color: black;"></div>
+  </body>
+</html>

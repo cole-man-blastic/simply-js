@@ -1,0 +1,198 @@
+<html>
+  <head>
+    <title> Pong </title>
+    <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+    <script>
+      function start() {
+        sjs.open("target", 500, 400);
+
+        var hitSound = new Audio("Music/hit.mp3");
+        var bounceSound = new Audio("Music/bounce.mp3");
+        var scoreSound = new Audio("Music/score.mp3");
+
+        var redPaddle = new sjs.Image("Images/red.png");
+        var bluePaddle = new sjs.Image("Images/blue.png");
+        var ball = new sjs.Image("Images/ball.png");
+        redPaddle.hide();
+        bluePaddle.hide();
+        ball.hide();
+
+        var txt = new sjs.Text("Epic Pong!", 50, "#7F007F7F", "Tahoma");
+        txt.node.style.width = "100%";
+        txt.node.style.textShadow = "0px 0px 4px #7F007F";
+        txt.node.style.textAlign = "center";
+
+        var lameButton = new sjs.Button("Go Back to Lame Version", function() {
+          window.location = "index.html";
+        }, 10, "#7F007F7F", "Tahoma");
+        lameButton.bottom().right();
+        lameButton.node.style.backgroundColor = "transparent"
+        lameButton.node.style.border = "none"
+        lameButton.node.style.filter = "drop-shadow(0px 0px 4px #7F007F)";
+
+        var button = new sjs.Button("Play", function() {
+          if (hitSound.readyState > 1 && bounceSound.readyState > 1 && scoreSound.readyState > 1) {
+            button.hide();
+
+            sjs.onHit("ball", "paddle", function(ball, paddle) {
+              if (ball.x < 40 && ball.sx < 0) {
+                ball.sx *= -1;
+                ball.sy /= 2;
+                ball.sy += paddle.sy / 2;
+                if (Math.abs(ball.sy) > 12) {
+                  ball.sy = 12 * Math.sign(ball.sy);
+                }
+                hitSound.play();
+              }
+
+              if (ball.x > 435 && ball.sx > 0) {
+                ball.sx *= -1;
+                ball.sy /= 2;
+                ball.sy += paddle.sy / 2;
+                if (Math.abs(ball.sy) > 12) {
+                  ball.sy = 12 * Math.sign(ball.sy);
+                }
+                hitSound.play();
+              }
+            });
+
+            redPaddle.show();
+            redPaddle.type = "paddle";
+            redPaddle.centerV().offset(0, -47.5);
+            redPaddle.node.style.filter = "drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.5))";
+
+            sjs.keyDown(UP_KEY, function() {
+              redPaddle.pushUp();
+            });
+            sjs.keyDown(DOWN_KEY, function() {
+              redPaddle.pushDown();
+            });
+            sjs.keyDown(W_KEY, function() {
+              redPaddle.pushUp();
+            });
+            sjs.keyDown(S_KEY, function() {
+              redPaddle.pushDown();
+            });
+
+            bluePaddle.show();
+            bluePaddle.type = "paddle";
+            bluePaddle.centerV().right().offset(0, -47.5);
+            bluePaddle.node.style.filter = "drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.5))";
+
+            var trails = []
+            for (i = 0; i < 20; i++) {
+              trails.push(new sjs.Image("Images/trail.png"));
+              trails[i].type = "trail";
+              trails[i].setSize(20 - 1 * i, 20 - 1 * i);
+              trails[i].node.style.opacity = "0";
+              trails[i].center();
+            }
+
+            ball.show();
+            ball.type = "ball";
+            ball.setSize(25, 25);
+            ball.center();
+            ball.friction = 0;
+            ball.bounce();
+            ball.pushUp(Math.random() * 8 - 4);
+            ball.pushRight(3);
+            ball.node.style.filter = "drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.5))";
+
+            var redScore = 0;
+            var blueScore = 0;
+            txt.setText("0 - 0")
+
+            sjs.onHit("ball", "left_screen", function() {
+              blueScore++;
+              txt.setText(redScore + " - " + blueScore);
+              ball.center();
+              ball.sx = 0;
+              ball.sy = 0;
+              ball.pushUp(Math.random() * 8 - 4);
+              ball.pushRight(3);
+              scoreSound.play();
+            });
+
+            sjs.onHit("ball", "right_screen", function() {
+              redScore++;
+              txt.setText(redScore + " - " + blueScore);
+              ball.center();
+              ball.sx = 0;
+              ball.sy = 0;
+              ball.pushUp(Math.random() * 8 - 4);
+              ball.pushLeft(3);
+              scoreSound.play();
+            });
+
+            sjs.onHit("ball", "top_screen", function() {
+              if (ball.sy < 0) {
+                ball.sy *= -1;
+                bounceSound.play();
+              }
+            });
+
+            sjs.onHit("ball", "bottom_screen", function() {
+              if (ball.sy > 0) {
+                ball.sy *= -1;
+                bounceSound.play();
+              }
+            });
+
+            setInterval(function() {
+              ball.node.style.transform = `rotate(${Math.atan2(ball.sy, ball.sx) / Math.PI * 180 + 90}deg)`;
+              if (Math.abs(ball.sx) < 20) {
+                ball.sx += 0.001 * Math.sign(ball.sx);
+              }
+              for (i = trails.length - 1; i > 0; i--) {
+                trails[i].x = trails[i - 1].x + 0.5;
+                trails[i].y = trails[i - 1].y + 0.5;
+                trails[i].node.style.opacity = trails[i - 1].node.style.opacity;
+                trails[i].node.style.filter = trails[i - 1].node.style.filter;
+              }
+              trails[0].x = ball.x + 2.5;
+              trails[0].y = ball.y + 2.5;
+              trails[0].node.style.opacity = (Math.abs(ball.sx) / 20 - 0.2);
+              trails[0].node.style.filter = "hue-rotate(" + (Math.abs(ball.sx) * -9 + 75) + "deg)";
+
+              if (Math.random() < 1.25861 ** Math.min(Math.max(redScore - blueScore + 5, 0), 10) / 10) {
+                if (ball.sx < 0) {
+                  if (bluePaddle.y > 201.5) {
+                    bluePaddle.pushUp();
+                  }
+
+                  if (bluePaddle.y < 101.5) {
+                    bluePaddle.pushDown();
+                  }
+                } else if (ball.x > 420) {
+                  if (ball.y > 187.5) {
+                    bluePaddle.pushUp();
+                  } else {
+                    bluePaddle.pushDown();
+                  }
+                } else {
+                  if (bluePaddle.y + 48.5 > ball.y + 12.5 + 20) {
+                    bluePaddle.pushUp();
+                  }
+
+                  if (bluePaddle.y + 48.5 < ball.y + 12.5 - 20) {
+                    bluePaddle.pushDown();
+                  }
+                }
+              }
+            }, 1000 / 60);
+          }
+        }, 30, "#7F007F7F", "Tahoma");
+        button.centerH();
+        button.offset(0, 350);
+        button.node.style.backgroundColor = "transparent"
+        button.node.style.borderColor = "#7F007F7F";
+        button.node.style.borderRadius = "10px";
+        button.node.style.borderStyle = "solid";
+        button.node.style.filter = "drop-shadow(0px 0px 4px #7F007F)";
+      }
+    </script>
+  </head>
+  <body onload="start()">
+    <div id="target" style="margin:auto; margin-top: 100; background-image: url(./Images/table.png);"></div>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title> Pong </title>
+    <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+    <script>
+      function start() {
+        sjs.open("target", 500, 400);
+
+        var leftPaddle = new sjs.Image("Images/lame.png", 0, 12, 96).centerV().offset(4, 0);
+        var rightPaddle = new sjs.Image("Images/lame.png", 0, 12, 96).centerV().right().offset(-4, 0);
+
+        var ball = new sjs.Image("Images/lame.png", 0, 12).center();
+
+        var txt = new sjs.Text(0, 50, "white", "Tahoma").centerH();
+
+        sjs.keyDown(UP_KEY, function() {
+          leftPaddle.pushUp();
+          rightPaddle.pushUp();
+        });
+        sjs.keyDown(DOWN_KEY, function() {
+          leftPaddle.pushDown();
+          rightPaddle.pushDown();
+        });
+        sjs.keyDown(W_KEY, function() {
+          leftPaddle.pushUp();
+          rightPaddle.pushUp();
+        });
+        sjs.keyDown(S_KEY, function() {
+          leftPaddle.pushDown();
+          rightPaddle.pushDown();
+        });
+
+        leftPaddle.type = "paddle";
+        rightPaddle.type = "paddle";
+
+        ball.friction = 0;
+        ball.pushRight(4);
+        ball.pushUp(3);
+        ball.type = "ball";
+
+        var score = 0;
+
+        sjs.onHit("ball", "paddle", function(ball, paddle) {
+          sjs.bounceOff(ball, paddle);
+          score++;
+          txt.setText(score);
+        });
+
+        ball.bounce();
+
+        sjs.onHit("ball", ["left_screen", "right_screen"], function() {
+          window.location = "lose.html";
+        });
+      }
+    </script>
+  </head>
+  <body onload="start()">
+    <div id="target" style="margin:auto; margin-top: 100; background-color: black;"></div>
+  </body>
+</html>
