@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Fish Game! </title>
+  <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+  <script>
+  function start() {
+    sjs.open("target", 800, 500);
+    localStorage.setItem("score", 0);
+
+    var playM = new Audio('Music/mad_robots.mp3');
+    playM.loop = true;
+    var toggle = true;
+    var musicOn = false;
+    sjs.keyDown(SPACE_KEY, function() {
+      if(toggle == true) {
+        if(musicOn == false) {
+          playM.play();
+          musicOn = true;
+        } else {
+        playM.pause();
+        musicOn = false;
+        }
+        toggle = false;
+        setTimeout(function() {
+          toggle = true;
+        },1000);
+      }
+    });
+
+    
+    var background = new sjs.Image("Images/background.png");
+    background.setSize(sjs.getWidth(), sjs.getHeight());
+
+    var extra = new sjs.Text("Press space bar to toggle music!", 21, "orange");
+    extra.node.style.backgroundColor = "blue";
+    extra.centerH();
+
+    setTimeout(function(){
+      extra.destroy();
+    }, 2000);
+
+    var player = new sjs.Image("Images/fish_right.png");
+    player.type = "player";
+    player.setSize(90, 60);
+    player.center();
+    player.accel = 0.1;
+    player.friction = 0.1;
+
+    var score = 0;
+    var score_txt = new sjs.Text("Score: 0", 21, "orange");
+    score_txt.node.style.backgroundColor = "blue";
+    
+    sjs.keyDown(RIGHT_KEY, function() {
+      player.setImage("Images/fish_right.png");
+      player.pushRight();
+    });
+
+    sjs.keyDown(LEFT_KEY, function() {
+      player.setImage("Images/fish_left.png");
+      player.pushLeft();
+    });
+
+    sjs.keyDown(UP_KEY, function() {
+      player.pushUp();
+    });
+
+    sjs.keyDown(DOWN_KEY, function() {
+      player.pushDown();
+    });
+
+    setInterval(function() {
+      var powerUp = new sjs.Image("Images/candy.png");
+      powerUp.type = "powerUp";
+      powerUp.setGravity();
+      powerUp.setSize(30);
+      powerUp.noBounds = true;
+      powerUp.moveTo(Math.floor(Math.random() * sjs.getWidth() - 30), -30);
+      powerUp.friction = 0.2;
+
+      sjs.onHit("powerUp", "bottom_screen", function(x, y) {
+        if (y > sjs.getWidth() + 30) x.destroy();
+      });
+    }, 5000);
+
+    var candiesActive = 0;
+
+    sjs.onHit("player", "powerUp", function(x, y) {
+      if (candiesActive == 0) {
+        x.accel += 0.1;
+      }
+      candiesActive++;
+      setTimeout(function() {
+        candiesActive--;
+        if (candiesActive == 0) {
+          x.accel -= 0.1;
+        }
+      }, 5000);
+      y.destroy();
+    });
+
+    setInterval(function() {
+      var speed = Math.round(1 + Math.random() * 10);
+      if(Math.random() > 0.5) {
+        var enemy = new sjs.Image("Images/blue_right.png");
+        enemy.type = "enemy";
+        enemy.noBounds = true;
+        enemy.friction = 0;
+        enemy.pushRight(speed);
+        enemy.scaleSize(0.2 + Math.random() ** 0.5 * 0.5);
+        enemy.moveTo(-enemy.getWidth(), Math.random()*(enemy.getClamp().y));
+      } else {
+        var enemy = new sjs.Image("Images/blue_left.png");
+        enemy.type = "enemy";
+        enemy.noBounds = true;
+        enemy.friction = 0;
+        enemy.pushLeft(speed);
+        enemy.scaleSize(0.2 + Math.random() ** 0.5 * 0.5);
+        enemy.moveTo(sjs.getWidth() + enemy.getWidth(), Math.random() * enemy.getClamp().y);
+      }
+
+      sjs.onHit("ememy", "left_screen", function(x, y) {
+        if (x.y < -enemy.getWidth()) x.destroy();
+      });
+
+      sjs.onHit("ememy", "right_screen", function(x, y) {
+        if (x.y < sjs.getWidth() + enemy.getWidth()) x.destroy();
+      });
+    }, 1000);
+
+    sjs.onHit("player","enemy", function(x,y){
+      if(x.getWidth() > y.getWidth()) {
+        score++;
+        localStorage.setItem("score", score);
+        x.grow(9, 6);
+        if(score >= 20){
+          window.location = "win.html";
+        }
+        y.destroy();
+        score_txt.setText(`Score: ${score}`);
+      } else if (x.getWidth() + 20 < y.getWidth() 
+        && Math.abs(x.x + x.getWidth() / 2 - y.x - y.getWidth() / 2) < x.getWidth() / 2
+        && Math.abs(x.y + x.getHeight() / 2 - y.y - y.getHeight() / 2) < x.getHeight() / 2
+      ) {
+        window.location = "gameover.html";
+      }
+    });
+  }
+  </script>
+</head>
+<body onload="start()">
+  <h1> Fish Game! </h1>
+
+  <div id="target" style="margin:auto; background:grey;"></div>
+</body>
+</html>
