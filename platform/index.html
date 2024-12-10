@@ -1,0 +1,161 @@
+<html>
+<head>
+  <title> Platform Game </title>
+  <script src="https://simplycodingcourses.com/files/simply.js"></script>
+  <script>
+    function preloadImage(url) {
+      var img = new Image();
+      img.src = url;
+    }
+
+    var level = [];
+    
+    function start() {
+      sjs.open("target", 800, 500);
+
+      var foreground = new sjs.Image("Images/foreground.png");
+      foreground.setSize(8000, 500);
+
+      sjs.loadImageArray('[{"width":120,"height":30,"x":340,"y":245,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":241,"y":360,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":644,"y":282,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":1015.2579858267793,"y":253,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":1360.9150559813465,"y":224,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":1705.51609638945,"y":280,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":1761.51609638945,"y":349,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":1787.3542909373646,"y":418,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2110.9978095879205,"y":219,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2383.07692756593,"y":438,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2382.32914291396,"y":252,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2375.2597266211596,"y":166,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2232.6317144878726,"y":159,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2210.3950627708737,"y":1,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2523.450571174911,"y":185,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2338.40738844414,"y":0,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2477.40738844414,"y":2,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2849.5915333075673,"y":0,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2970.6104599307673,"y":460,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2956.6104599307673,"y":389,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2933.6104599307673,"y":309,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2892.6104599307673,"y":235,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":2922.6104599307673,"y":165,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3311.6104599307673,"y":315,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3007.331377822601,"y":2,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3139.953028276492,"y":67,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3443.953028276492,"y":176,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3455.122220548392,"y":127,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3450.122220548392,"y":76,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3462.122220548392,"y":240,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3520.122220548392,"y":440,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3480.122220548392,"y":297,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3500.122220548392,"y":364,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3414.122220548392,"y":19,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3897.1806363851724,"y":182,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3788.1806363851724,"y":181,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3768.1806363851724,"y":210,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3913.1806363851724,"y":245,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3765.0836185230355,"y":283,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3759.7013646327255,"y":261,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3758.319233896272,"y":231,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3954.075058526147,"y":254,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3944.555989550431,"y":283,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":3858.211017867477,"y":295,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4182.269691403933,"y":181,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4132.269691403933,"y":176,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4103.150645528217,"y":203,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4101.806421109217,"y":250,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4240.3872972452145,"y":233,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4093.286604869546,"y":224,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4269.286604869546,"y":248,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4116.286604869546,"y":272,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4259.286604869546,"y":274,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"},{"width":120,"height":30,"x":4184.286604869546,"y":289,"sx":0,"sy":0,"topSpeed":10,"src":"Images/platform.png","alt":"add text","type":"platform","friction":0.05,"classType":"Image"}]');
+
+      foreground.node.style.imageRendering = "pixelated";
+
+      var target = document.getElementById("target");
+
+      setInterval(function() {
+        target.style.backgroundImage = "url(Images/background2.png)";
+      }, 1000);
+
+      setTimeout(function() {
+        setInterval(function() {
+          target.style.backgroundImage = "url(Images/background.png)";
+        }, 1000);
+      }, 500);
+
+      
+      var player = new sjs.Image("Images/r_idle.png");
+      player.type = "player";
+
+      player.setSize(48, 90);
+      player.setGravity(3);
+
+      player.bottom();
+      player.friction = 0.3;
+      player.noBounds = true;
+
+      player.node.style.imageRendering = "pixelated";
+
+      sjs.scrollable(player, foreground);
+
+      var r_images = ["Images/r_walk-0.png", "Images/r_walk-1.png", "Images/r_walk-2.png", "Images/r_walk-3.png", "Images/r_walk-4.png", "Images/r_walk-5.png", "Images/r_walk-6.png", "Images/r_walk-7.png"];
+
+      var l_images = ["Images/l_walk-0.png", "Images/l_walk-1.png", "Images/l_walk-2.png", "Images/l_walk-3.png", "Images/l_walk-4.png", "Images/l_walk-5.png", "Images/l_walk-6.png", "Images/l_walk-7.png"];
+
+      var r_facing = true;
+      var r_track = 0;
+      var l_track = 0;
+
+      var walkee = 0;
+      
+      sjs.keyDown(RIGHT_KEY, function(){
+        r_facing = true;
+        r_track = r_track + 1;
+        player.pushRight(2);
+        player.setImage(r_images[r_track]);
+        if(r_track == 7){
+          r_track = 0;
+        }
+        if(r_track >= 8){
+          player.setImage("Images/r_jump.png");
+        }
+        player.node.style.imageRendering = "pixelated";
+        walkee++;
+        setTimeout(function() {
+          walkee--;
+          if (walkee == 0) {
+            if (r_facing) {
+              player.setImage("Images/r_idle.png");
+            } else {
+              player.setImage("Images/l_idle.png");
+            }
+          }
+        }, 100);
+      });
+      
+      sjs.keyDown(LEFT_KEY, function(){
+        r_facing = false;
+        l_track = l_track + 1;
+        player.pushLeft(2);
+        player.setImage(l_images[l_track]);
+        if(l_track == 7){
+          l_track = 0;
+        }
+        if(l_track >= 8){
+          player.setImage("Images/l_jump.png");
+        }
+        player.node.style.imageRendering = "pixelated";
+        walkee++;
+        setTimeout(function() {
+          walkee--;
+          if (walkee == 0) {
+            player.setImage(r_facing ? "Images/r_idle.png" : "Images/l_idle.png");
+          }
+        }, 100);
+      });
+
+      var canJump = true;
+      sjs.keyDown(UP_KEY, function() {
+        if(canJump) {
+          canJump = false;
+          player.pushUp(55);
+          if(r_facing) {
+            player.setImage("Images/r_jump.png");
+            r_track = 8;
+          } else {
+            player.setImage("Images/l_jump.png");
+            l_track = 8;
+          }
+        }
+      });
+
+      sjs.onHit("player", "bottom_screen", function(x, y) {
+        sjs.stoppedBy(x, y);
+        if(!canJump) {
+          canJump = true;
+          r_track = 0;
+          l_track = 0;
+        }
+      });
+
+      sjs.onHit("player", ["right_screen", "left_screen", "top_screen"], function(x, y) {
+        sjs.stoppedBy(x, y);
+      });
+
+      preloadImage("Images/foreground.png");
+      preloadImage("Images/background.png");
+      preloadImage("Images/background2.png");
+      r_images.forEach(url => {
+        preloadImage(url);
+      });
+      l_images.forEach(url => {
+        preloadImage(url);
+      });
+
+      sjs.onHit("player","platform",function(x,y){
+        sjs.stoppedBy(x,y);
+        if(!canJump && x.y < y.y - 85) {
+          canJump = true;
+          r_track = 0;
+          l_track = 0;
+        }
+      });
+      
+    }
+  </script>
+</head>
+<body onload="start()">
+  <h1> Platform Game </h1>
+
+  <div id="target" style="margin:auto;background-image:url('Images/background.png'); background-size: 100%; image-rendering: pixelated;"></div>
+</body>
+</html>
